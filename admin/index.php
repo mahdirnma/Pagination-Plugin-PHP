@@ -1,6 +1,10 @@
 <?php
 require_once 'users.php';
 $users = new Users('users');
+$page=$_GET['page'];
+$per=$_GET['per'];
+//$count=$users->select()->rowCount();
+$count2=$users->select_count()['total'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -12,6 +16,26 @@ $users = new Users('users');
     <title>users</title>
 </head>
 <body>
+<p>
+    <?php
+    echo 'page:'.$page;
+    ?>
+</p>
+<p>
+    <?php
+    echo 'per:'.$per;
+    ?>
+</p>
+<p>
+    <?php
+    echo 'count(total):'.$count2;
+    ?>
+</p>
+<p>
+    <?php
+    echo 'pages:'.ceil($count2/$per);
+    ?>
+</p>
 <table border="1">
     <tr>
         <td>id</td>
@@ -21,7 +45,7 @@ $users = new Users('users');
         <td>gender</td>
     </tr>
     <?php
-    foreach ($users->select() as $user) {
+    foreach ($users->select_special($per,$page) as $user){
         echo '<tr>';
         echo '<td>' . $user['id'] . '</td>';
         echo '<td>' . $user['firstname'] . '</td>';
