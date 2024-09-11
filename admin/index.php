@@ -5,6 +5,7 @@ $page=$_GET['page'];
 $per=$_GET['per'];
 //$count=$users->select()->rowCount();
 $count2=$users->select_count()['total'];
+$pages=ceil($count2/$per);
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,7 +34,7 @@ $count2=$users->select_count()['total'];
 </p>
 <p>
     <?php
-    echo 'pages:'.ceil($count2/$per);
+    echo 'pages:'.$pages;
     ?>
 </p>
 <table border="1">
@@ -56,5 +57,29 @@ $count2=$users->select_count()['total'];
     }
     ?>
 </table>
+<div style="display: flex;margin-top: 20px">
+
+    <?php
+    if ($page<=1){
+        $status='none';
+    }else{
+        $status='inline-block';
+    }
+    if ($page>=$pages){
+        $status2='none';
+    }else{
+        $status2='inline-block';
+    }
+    $backward=(int)$page-1;
+    $forward=(int)$page+1;
+    echo '<a href="index.php?page='.$backward.'&per='.$per.'" style="margin: 0 20px;font-size: 20px;text-decoration: none;border: 1px solid black;padding: 7px;display: '.$status.'"><<</a> ';
+
+    for ($i=1; $i<=$pages; $i++) {
+        echo '<a href="index.php?page='.$i.'&per='.$per.'" style="margin: 0 20px;font-size: 20px;text-decoration: none;border: 1px solid black;padding: 7px">'.$i.'</a> ';
+    }
+    echo '<a href="index.php?page='.$forward.'&per='.$per.'" style="margin: 0 20px;font-size: 20px;text-decoration: none;border: 1px solid black;padding: 7px;display: '.$status2.'">>></a> ';
+    ?>
+</div>
 </body>
 </html>
+>>
